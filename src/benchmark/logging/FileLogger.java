@@ -22,26 +22,20 @@ public class FileLogger implements ILogger {
             writer.write(text);
             writer.newLine();
         } catch (IOException e) {
-            throw new RuntimeException("Failed to write to log file", e);
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public void write(Object... values) {
         StringBuilder sb = new StringBuilder();
-        for (Object v : values) {
-            sb.append(v).append(" ");
-        }
+        for (Object v : values) sb.append(v).append(" ");
         write(sb.toString().trim());
     }
 
     @Override
     public void close() {
-        try {
-            writer.close();
-        } catch (IOException e) {
-            // ignore or report
-            e.printStackTrace();
-        }
+        try { writer.close(); }
+        catch (IOException ignored) {}
     }
 }
