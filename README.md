@@ -1,24 +1,36 @@
-# Simple Java Benchmark Framework
 
-A modular benchmarking tool built in Java to test CPU and storage performance.  
-Supports measuring execution time, throughput, and IOPS for multiple scenarios (CPU, HDD sequential and random access).
+# 🧪 Simple Java Benchmark Framework
+
+A modular benchmarking tool built in Java to test **CPU** and **HDD performance**.  
+Supports measuring execution time, throughput (MB/s), and IOPS across multiple test types.
 
 ---
 
 ## ✅ Features
 
-- **CPU Benchmarks**: Bubble sort, Pi digit calculation, fixed-point math
+- **CPU Benchmarks**:
+  - Bubble sort
+  - Digits of Pi calculation
+  - Fixed-point arithmetic
+  - Fixed-point vs Floating-point comparison
+  - Recursion with loop unrolling (prime finder)
+
 - **Disk Benchmarks**:
-  - **Sequential Write**: Measure MB/s with configurable file sizes and buffer sizes
-  - **Random Access**: Simulate database-style random reads/writes, measure IOPS and MB/s
-- **Logging**: Console or file output
-- **Accurate Timing**: Nanosecond precision via custom `Timer`
+  - Sequential Write Speed (MB/s)
+  - Random Access (Reads/Writes via IOPS and MB/s)
+
+- **Logging**:
+  - Console output
+  - File-based logging
+
+- **Precision**:
+  - Nanosecond timing via a custom `Timer` utility
 
 ---
 
 ## ⚙️ Compilation
 
-From project root:
+From the project root, run:
 
 ```bash
 javac -d bin \
@@ -29,44 +41,58 @@ javac -d bin \
   src/bench/hdd/*.java \
   src/benchmark/Main.java \
   src/testbench/*.java
+```
 
+---
+
+## 🧭 Running Benchmarks
+
+### List all available benchmarks:
+
+```bash
 java -cp bin benchmark.Main --list
+```
 
-java -cp bin benchmark.Main
-Available benchmarks:
-  cpu_sort           - Bubble sort on a random array
-  file_write         - Write 1,000,000 lines to a file
-  hdd_write          - Sequential file write speed test
-  hdd_random_access  - Random access read/write benchmark
-  cpu_pi             - Compute digits of Pi
-  cpu_fixed          - Fixed-point arithmetic performance
-  cpu_fixed_vs_float - Compare fixed-point vs floating-point
-  cpu_recursion      - Recursive prime finder with loop unrolling
-Usage:
-  java -cp bin benchmark.Main --list
-  java -cp bin benchmark.Main --benchmark <benchmark_name> --logger <console|file>
-       [--logfile <file>] [--size <n>] [--path <file>]
+### General usage format:
 
-CPU: Bubble Sort
-java -cp bin benchmark.Main --benchmark cpu_sort --logger console --size 10000
+```bash
+java -cp bin benchmark.Main \
+  --benchmark <benchmark_name> \
+  --logger <console|file> \
+  [--logfile <log.txt>] \
+  [--size <n>] \
+  [--path <output_file>]
+```
 
-CPU: Fixed-point Arithmetic
-java -cp bin benchmark.Main --benchmark cpu_fixed --logger console --size 100000
+---
 
-CPU: Fixed-point vs Floating-point
-java -cp bin benchmark.Main --benchmark cpu_fixed_vs_float --logger console --size 100000
+## 🚀 Benchmark Commands
 
-CPU: Digits of Pi
-java -cp bin benchmark.Main --benchmark cpu_pi --logger console --size 1000
+### 🧠 CPU Benchmarks
 
-CPU: Recursion & Loop Unrolling
-java -cp bin benchmark.Main --benchmark cpu_recursion --logger console --size 5000
+| Task                        | Command                                                                 |
+|-----------------------------|-------------------------------------------------------------------------|
+| Bubble Sort                 | `java -cp bin benchmark.Main --benchmark cpu_sort --logger console --size 10000` |
+| Fixed-point Arithmetic      | `java -cp bin benchmark.Main --benchmark cpu_fixed --logger console --size 100000` |
+| Fixed vs Floating-point     | `java -cp bin benchmark.Main --benchmark cpu_fixed_vs_float --logger console --size 100000` |
+| Digits of Pi                | `java -cp bin benchmark.Main --benchmark cpu_pi --logger console --size 1000` |
+| Recursion (Prime Generator) | `java -cp bin benchmark.Main --benchmark cpu_recursion --logger console --size 5000` |
 
-File Write (1 million lines)
-java -cp bin benchmark.Main --benchmark file_write --logger console --path output.txt
+---
 
-HDD Write Speed (Sequential)
-java -cp bin benchmark.Main --benchmark hdd_write --logger console
+### 💾 Disk Benchmarks
 
-HDD Random Access Benchmark
-java -cp bin benchmark.Main --benchmark hdd_random_access --logger console
+| Task                          | Command                                                                 |
+|-------------------------------|-------------------------------------------------------------------------|
+| File Write (1M lines)         | `java -cp bin benchmark.Main --benchmark file_write --logger console --path output.txt` |
+| HDD Write Speed (Sequential)  | `java -cp bin benchmark.Main --benchmark hdd_write --logger console` |
+| HDD Random Access (All modes) | `java -cp bin benchmark.Main --benchmark hdd_random_access --logger console` |
+
+---
+
+## 📁 Output
+
+Depending on the logger used:
+
+- `console`: results are printed to the terminal
+- `file`: results are saved to a log file using `--logfile <name>`
