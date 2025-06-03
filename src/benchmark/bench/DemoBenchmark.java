@@ -18,6 +18,12 @@ public class DemoBenchmark implements IBenchmark {
     }
 
     @Override
+    public void warmup() {
+        initialize(10L); // short sleep
+        run();
+    }
+
+    @Override
     public void clean() {
         // nothing to clean
     }

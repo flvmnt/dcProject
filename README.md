@@ -1,68 +1,72 @@
-# Simple Benchmark Framework
+# Simple Java Benchmark Framework
 
-A tiny Java tool to time code and log results.
+A modular benchmarking tool built in Java to test CPU and storage performance.  
+Supports measuring execution time, throughput, and IOPS for multiple scenarios (CPU, HDD sequential and random access).
 
-## Quick Start
+---
 
-# 1. Compile everything (no output if successful)
+## ✅ Features
+
+- **CPU Benchmarks**: Bubble sort, Pi digit calculation, fixed-point math
+- **Disk Benchmarks**:
+  - **Sequential Write**: Measure MB/s with configurable file sizes and buffer sizes
+  - **Random Access**: Simulate database-style random reads/writes, measure IOPS and MB/s
+- **Logging**: Console or file output
+- **Accurate Timing**: Nanosecond precision via custom `Timer`
+
+---
+
+## ⚙️ Compilation
+
+From project root:
+
+```bash
 javac -d bin \
   src/benchmark/timing/*.java \
   src/benchmark/logging/*.java \
   src/benchmark/bench/*.java \
+  src/benchmark/cpu/*.java \
+  src/bench/hdd/*.java \
   src/benchmark/Main.java \
-  src/testbench/TestDemoBench.java
+  src/testbench/*.java
 
-# 2. List available benchmarks
 java -cp bin benchmark.Main --list
 
+java -cp bin benchmark.Main
 Available benchmarks:
-  cpu_sort   - Bubble sort on a random array
-  file_write - Write 1,000,000 lines to a file
+  cpu_sort           - Bubble sort on a random array
+  file_write         - Write 1,000,000 lines to a file
+  hdd_write          - Sequential file write speed test
+  hdd_random_access  - Random access read/write benchmark
+  cpu_pi             - Compute digits of Pi
+  cpu_fixed          - Fixed-point arithmetic performance
+  cpu_fixed_vs_float - Compare fixed-point vs floating-point
+  cpu_recursion      - Recursive prime finder with loop unrolling
+Usage:
+  java -cp bin benchmark.Main --list
+  java -cp bin benchmark.Main --benchmark <benchmark_name> --logger <console|file>
+       [--logfile <file>] [--size <n>] [--path <file>]
 
-# 3. Run CPU‐sort with console logger
-java -cp bin benchmark.Main --benchmark cpu_sort --logger console --size 5000
+CPU: Bubble Sort
+java -cp bin benchmark.Main --benchmark cpu_sort --logger console --size 10000
 
-Benchmark: cpu_sort
-Elapsed (ns): 123456789
-Elapsed (ms): 123.457
+CPU: Fixed-point Arithmetic
+java -cp bin benchmark.Main --benchmark cpu_fixed --logger console --size 100000
 
-# 4. Run CPU‐sort with file logger
-java -cp bin benchmark.Main --benchmark cpu_sort --logger file --logfile cpu_log.txt --size 5000
+CPU: Fixed-point vs Floating-point
+java -cp bin benchmark.Main --benchmark cpu_fixed_vs_float --logger console --size 100000
 
-# → no console output, but cpu_log.txt contains:
-# Benchmark: cpu_sort
-# Elapsed (ns): 123456789
-# Elapsed (ms): 123.457
+CPU: Digits of Pi
+java -cp bin benchmark.Main --benchmark cpu_pi --logger console --size 1000
 
-# 5. Run file‐write with console logger
-java -cp bin benchmark.Main --benchmark file_write --logger console --path demo_output.txt
+CPU: Recursion & Loop Unrolling
+java -cp bin benchmark.Main --benchmark cpu_recursion --logger console --size 5000
 
-Benchmark: file_write
-Elapsed (ns): 987654321
-Elapsed (ms): 987.654
+File Write (1 million lines)
+java -cp bin benchmark.Main --benchmark file_write --logger console --path output.txt
 
-# 6. Run file‐write with file logger
-java -cp bin benchmark.Main --benchmark file_write --logger file --logfile file_log.txt --path demo_output.txt
+HDD Write Speed (Sequential)
+java -cp bin benchmark.Main --benchmark hdd_write --logger console
 
-# → no console output, but file_log.txt contains:
-# Benchmark: file_write
-# Elapsed (ns): 987654321
-# Elapsed (ms): 987.654
-
-# 7. Run the demo/testbench
-java -cp bin testbench.TestDemoBench
-
-Expected (ms): 100
-Measured (ns): 105416458
-Offset: 5.42%
-
-Segment 0 = 105.048166 ms
-Segment 1 = 105.04525 ms
-Segment 2 = 102.262583 ms
-Segment 3 = 105.0355 ms
-Segment 4 = 101.854875 ms
-Segment 5 = 104.297 ms
-Total (ms): 623.546082
-Total in seconds: 0.624 SECOND
-Total in millis: 623.546 MILLI
-Total in micros: 623546.082 MICRO
+HDD Random Access Benchmark
+java -cp bin benchmark.Main --benchmark hdd_random_access --logger console

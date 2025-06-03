@@ -14,6 +14,12 @@ public class FileWriteBenchmark implements IBenchmark {
     }
 
     @Override
+    public void warmup() {
+        initialize("warmup_output.txt");
+        run();
+    }
+
+    @Override
     public void run() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filepath))) {
             for (int i = 0; i < 1_000_000 && !cancelled; i++) {

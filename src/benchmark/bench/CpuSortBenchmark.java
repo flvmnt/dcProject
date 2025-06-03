@@ -17,6 +17,13 @@ public class CpuSortBenchmark implements IBenchmark {
     }
 
     @Override
+    public void warmup() {
+        initialize(1000); // small array
+        run();            // run once to warm up
+    }
+
+
+    @Override
     public void run() {
         int n = data.length;
         for (int i = 0; i < n && !cancelled; i++) {
